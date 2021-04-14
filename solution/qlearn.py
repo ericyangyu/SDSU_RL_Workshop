@@ -61,6 +61,7 @@ class QLearningAlgorithm:
 
 		return lr
 
+	# Sample an action
 	def get_action(self, s, epsilon):
 		if random.random() < epsilon:
 			return self.env.action_space.sample()
@@ -77,7 +78,10 @@ class QLearningAlgorithm:
 				self.q_table[s] = [0,0]
 
 			done = False
-			time_steps = 0
+
+			# Logging
+			accum_r = 0
+
 			while not done:
 				self.env.render()
 
@@ -90,11 +94,12 @@ class QLearningAlgorithm:
 
 				self.q_table[s][action] += (self.alpha(episode) * (r + DISCOUNT * max(self.q_table[new_s]) - self.q_table[s][action]))
 
-				time_steps += 1
+				# Logging
+				accum_r += r
 
 				if done:
 					break
 
 				s = new_s
-			print(f"Episode {episode} done with {time_steps} time steps.")
+			print(f"Episode {episode} done with {accum_r} accumulated reward.")
 		self.env.close()

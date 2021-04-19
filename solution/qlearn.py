@@ -64,8 +64,7 @@ class QLearningAlgorithm:
 	# Sample an action
 	def get_action(self, s, epsilon):
 		if random.random() < epsilon:
-			return self.env.action_space.sample()
-			return random.sample([LEFT, RIGHT])
+			return random.choice([LEFT, RIGHT])
 		else:
 			return np.argmax(self.q_table[s])
 
@@ -101,5 +100,7 @@ class QLearningAlgorithm:
 					break
 
 				s = new_s
+
 			print(f"Episode {episode} done with {accum_r} accumulated reward.")
+
 		self.env.close()

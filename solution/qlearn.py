@@ -40,26 +40,24 @@ class QLearningAlgorithm:
 		return tuple(bucket_s)
 
 	# Annealing learning rate
-	def alpha(self, num_eps):
-		lr = 1 - math.log10((num_eps + 1)/25)
+	def alpha(self, num_episodes):
+		# Sample learning rate along logarithmic distribution
+		lr = 1 - math.log10((num_episodes + 1)/25)
 
-		if lr > 1:
-			return 1
-		elif lr < 0.1:
-			return 0.1
+		# Constrain lr between 0.1 and 1
+		lr = max(0.1, min(1, lr))
 
 		return lr
 
 	# Annealing exploration epsilon
 	def epsilon(self, num_eps):
-		lr = 1 - math.log10((num_eps + 1)/25)
+		# Sample epsilon along logarithmic distribution
+		eps = 1 - math.log10((num_eps + 1)/25)
 
-		if lr > 1:
-			return 1
-		elif lr < 0.1:
-			return 0.1
+		# Constrain epsilon between 0.1 and 1
+		eps = max(0.1, min(1, eps))
 
-		return lr
+		return eps
 
 	# Sample an action
 	def get_action(self, s, epsilon):
